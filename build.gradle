@@ -1,11 +1,8 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'io.qameta.allure' version '2.10.0'
     id "io.freefair.lombok" version "6.0.0-m2"
 }
-
-group 'org.example'
-version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -17,7 +14,9 @@ def allureVersion = "2.19.0",
     appiumVersion = "8.1.1",
     assertJVersion = "3.23.1",
     junitVersion = "5.9.0",
-    slf4jVersion = "1.7.32"
+    slf4jVersion = "1.7.32",
+    ownerVersion = "1.0.4",
+    commonsIoVersion = "2.11.0"
 
 allure {
     report {
@@ -42,18 +41,20 @@ dependencies {
             "org.assertj:assertj-core:$assertJVersion",
             "io.appium:java-client:$appiumVersion",
             "org.junit.jupiter:junit-jupiter:$junitVersion",
-            "org.slf4j:slf4j-simple:$slf4jVersion"
+            "org.slf4j:slf4j-simple:$slf4jVersion",
+            "org.aeonbits.owner:owner:$ownerVersion",
+            "commons-io:commons-io:$commonsIoVersion"
+
     )
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-test {
-    useJUnitPlatform()
+tasks.withType(Test) {
     systemProperties(System.getProperties())
+    useJUnitPlatform()
 
     testLogging {
         lifecycle {
@@ -62,4 +63,3 @@ test {
         }
     }
 }
-
